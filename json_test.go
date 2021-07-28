@@ -18,3 +18,15 @@ func TestLoadNonExistingJsonFile(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestLoadJsonCompletly(t *testing.T) {
+	config := &configuration{}
+	err := conf.LoadJson("./testdata/configuration.json", config)
+	if err != nil {
+		t.Errorf("fail when load file")
+	}
+
+	if config.Name != "Alice" || config.Age != 19 {
+		t.Fail()
+	}
+}
