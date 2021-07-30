@@ -1,6 +1,7 @@
 package conf_test
 
 import (
+	"path/filepath"
 	"testing"
 
 	"github.com/gilsuk/conf"
@@ -21,10 +22,7 @@ func TestLoadNonExistingJsonFile(t *testing.T) {
 
 func TestLoadJsonCompletly(t *testing.T) {
 	config := &configuration{}
-	err := conf.LoadJson("./testdata/configuration.json", config)
-	if err != nil {
-		t.Errorf("fail when load file")
-	}
+	loadJsonHelper(t, "configuration.json", config)
 
 	if config.Name != "Alice" || config.Age != 19 {
 		t.Fail()
@@ -36,10 +34,7 @@ func TestOverrideDefault(t *testing.T) {
 		Name: "Bob",
 	}
 
-	err := conf.LoadJson("./testdata/configuration.json", config)
-	if err != nil {
-		t.Errorf("fail when load file")
-	}
+	loadJsonHelper(t, "configuration.json", config)
 
 	if config.Name != "Alice" || config.Age != 21 {
 		t.Fail()
@@ -51,12 +46,17 @@ func TestLoadDefault(t *testing.T) {
 		Name: "Bob",
 	}
 
-	err := conf.LoadJson("./testdata/configuration-with-default.json", config)
-	if err != nil {
-		t.Errorf("fail when load file")
-	}
+	loadJsonHelper(t, "configuration-with-default.json", config)
 
 	if config.Name != "Bob" || config.Age != 21 {
 		t.Fail()
+	}
+}
+
+func loadJsonHelper(t *testing.T, fileName string, config interface{}) {
+	t.Helper()
+	err := conf.LoadJson(filepath.Join("testdata", fileName), config)
+	if err != nil {
+		t.Errorf("fail when load file")
 	}
 }
