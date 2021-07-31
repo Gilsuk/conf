@@ -1,6 +1,7 @@
 package conf_test
 
 import (
+	"os"
 	"path/filepath"
 	"testing"
 
@@ -54,10 +55,54 @@ func TestLoadDefault(t *testing.T) {
 	}
 }
 
+func TestOutOverrideExistingOutFile(t *testing.T) {
+	configs := []configuration{
+		{
+			Name: "Cindy",
+			Age:  18,
+		},
+		{
+			Name: "Lauper",
+			Age:  20,
+		},
+	}
+
+	outFileName := "out.json"
+	outPath := filepath.Join("testdata", outFileName)
+
+	for i := 0; i < len(configs); i++ {
+		if err := conf.Out(conf.JSON, outPath, configs[i]); err != nil {
+			t.Fail()
+		}
+		config := &configuration{}
+		loadJsonHelper(t, outFileName, config)
+
+		if config.Name != configs[i].Name || config.Age != configs[i].Age {
+			t.Fail()
+		}
+	}
+}
+
 func loadJsonHelper(t *testing.T, fileName string, config interface{}) {
 	t.Helper()
 	err := conf.Load(conf.JSON, filepath.Join("testdata", fileName), config)
 	if err != nil {
-		t.Errorf("fail when load file")
+		t.Error(err)
 	}
+}
+
+func tearDown() {
+	trashes := []string{
+		"out.json",
+	}
+
+	for i := 0; i < len(trashes); i++ {
+		os.Remove(filepath.Join("testdata", trashes[i]))
+	}
+}
+
+func TestMain(m *testing.M) {
+	exitCode := m.Run()
+	tearDown()
+	os.Exit(exitCode)
 }

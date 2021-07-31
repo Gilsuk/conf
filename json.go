@@ -21,11 +21,23 @@ func (w *jsonWorker) load(path string, confStruct interface{}) error {
 		return err
 	}
 
-	json.Unmarshal(bytes, confStruct)
-
-	return nil
+	return json.Unmarshal(bytes, confStruct)
 }
 
 func (w *jsonWorker) out(path string, confStruct interface{}) error {
-	return nil
+
+	file, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	bytes, err := json.MarshalIndent(confStruct, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	_, err = file.Write(bytes)
+
+	return err
 }
