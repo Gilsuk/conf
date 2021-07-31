@@ -14,7 +14,8 @@ type configuration struct {
 
 func TestLoadNonExistingJsonFile(t *testing.T) {
 	config := &configuration{}
-	err := conf.LoadJson("nonexisting.json", config)
+
+	err := conf.Load(conf.JSON, "nonexisting.json", config)
 	if err == nil {
 		t.Fail()
 	}
@@ -55,7 +56,7 @@ func TestLoadDefault(t *testing.T) {
 
 func loadJsonHelper(t *testing.T, fileName string, config interface{}) {
 	t.Helper()
-	err := conf.LoadJson(filepath.Join("testdata", fileName), config)
+	err := conf.Load(conf.JSON, filepath.Join("testdata", fileName), config)
 	if err != nil {
 		t.Errorf("fail when load file")
 	}

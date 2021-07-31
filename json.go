@@ -6,7 +6,9 @@ import (
 	"os"
 )
 
-func LoadJson(path string, configuration interface{}) error {
+type jsonWorker struct{}
+
+func (l *jsonWorker) load(path string, confStruct interface{}) error {
 
 	file, err := os.OpenFile(path, os.O_RDONLY, 0644)
 	if err != nil {
@@ -19,7 +21,11 @@ func LoadJson(path string, configuration interface{}) error {
 		return err
 	}
 
-	json.Unmarshal(bytes, configuration)
+	json.Unmarshal(bytes, confStruct)
 
+	return nil
+}
+
+func (l *jsonWorker) out(path string, confStruct interface{}) error {
 	return nil
 }
