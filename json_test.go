@@ -37,7 +37,7 @@ func TestOverrideDefault(t *testing.T) {
 
 	loadJsonHelper(t, "configuration.json", config)
 
-	if config.Name != "Alice" || config.Age != 21 {
+	if config.Name != "Alice" || config.Age != 19 {
 		t.Fail()
 	}
 }
