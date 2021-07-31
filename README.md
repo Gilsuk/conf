@@ -35,7 +35,7 @@ confWithDefault := &configuration{
 conf.Out(conf.JSON, "config_example.json", confWithDefault)
 
 // load config values from a file
-// after loaded, config values are overried
+// after loaded, config values are overrided
 conf.Load(conf.JSON, "config.json", confWithDefault)
 
 fmt.Printf("%+v", *confWithDefault)
