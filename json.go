@@ -8,7 +8,7 @@ import (
 
 type jsonWorker struct{}
 
-func (l *jsonWorker) load(path string, confStruct interface{}) error {
+func (w *jsonWorker) load(path string, confStruct interface{}) error {
 
 	file, err := os.OpenFile(path, os.O_RDONLY, 0644)
 	if err != nil {
@@ -26,6 +26,6 @@ func (l *jsonWorker) load(path string, confStruct interface{}) error {
 	return nil
 }
 
-func (l *jsonWorker) out(path string, confStruct interface{}) error {
+func (w *jsonWorker) out(path string, confStruct interface{}) error {
 	return nil
 }
