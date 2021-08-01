@@ -6,7 +6,11 @@ import (
 	"os"
 )
 
-type jsonWorker struct{}
+type jsonWorker workerStruct
+
+func newJsonWorker() worker {
+	return new(jsonWorker)
+}
 
 func (w *jsonWorker) load(path string, confStruct interface{}) error {
 

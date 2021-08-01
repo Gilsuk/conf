@@ -13,8 +13,8 @@ func Out(fileFormat format, path string, confStruct interface{}) error {
 func workerByFormat(fileFormat format) worker {
 	switch fileFormat {
 	case JSON:
-		return &jsonWorker{}
+		return newJsonWorker()
 	default:
-		return &defaultWorker{}
+		return newDefaultWorker()
 	}
 }
