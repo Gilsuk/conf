@@ -1,5 +1,7 @@
 # conf
 
+conf package detect file format automatically by It's extension
+
 ## installation
 
 ```bash
@@ -18,6 +20,14 @@ config.json
 }
 ```
 
+config.yaml
+
+```yaml
+LogLevel: "production"
+MaxAllowed: 10
+Port: 8080
+```
+
 ```go
 type configuration struct {
     LogLevel string
@@ -32,11 +42,13 @@ confWithDefault := &configuration{
 }
 
 // out default config values to a file for example
-conf.Out(conf.JSON, "config_example.json", confWithDefault)
+conf.Out("config_example.json", confWithDefault)
+conf.Out("config_example.json", confWithDefault)
 
 // load config values from a file
 // after loaded, config values are overrided
-conf.Load(conf.JSON, "config.json", confWithDefault)
+conf.Load("config.json", confWithDefault)
+conf.Load("config.yaml", confWithDefault)
 
 fmt.Printf("%+v", *confWithDefault)
 ```

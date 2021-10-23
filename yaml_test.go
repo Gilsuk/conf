@@ -10,7 +10,7 @@ import (
 func TestLoadNonExistingYamlFile(t *testing.T) {
 	config := &configuration{}
 
-	err := conf.Load(conf.YAML, "nonexisting.yaml", config)
+	err := conf.Load("nonexisting.yaml", config)
 	if err == nil {
 		t.Fail()
 	}
@@ -65,7 +65,7 @@ func TestOutOverrideExistingYamlOutFile(t *testing.T) {
 	outPath := filepath.Join("testdata", outFileName)
 
 	for i := 0; i < len(configs); i++ {
-		if err := conf.Out(conf.YAML, outPath, configs[i]); err != nil {
+		if err := conf.Out(outPath, configs[i]); err != nil {
 			t.Fail()
 		}
 		config := &configuration{}
@@ -79,7 +79,7 @@ func TestOutOverrideExistingYamlOutFile(t *testing.T) {
 
 func loadYamlHelper(t *testing.T, fileName string, config interface{}) {
 	t.Helper()
-	err := conf.Load(conf.YAML, filepath.Join("testdata", fileName), config)
+	err := conf.Load(filepath.Join("testdata", fileName), config)
 	if err != nil {
 		t.Error(err)
 	}

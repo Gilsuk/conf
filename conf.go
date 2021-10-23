@@ -1,22 +1,27 @@
 package conf
 
-func Load(fileFormat format, path string, confStruct interface{}) error {
-	worker := workerByFormat(fileFormat)
+import (
+	"path/filepath"
+	"strings"
+)
+
+func Load(path string, confStruct interface{}) error {
+	worker := workerByFormat(path)
 	return worker.load(path, confStruct)
 }
 
-func Out(fileFormat format, path string, confStruct interface{}) error {
-	worker := workerByFormat(fileFormat)
+func Out(path string, confStruct interface{}) error {
+	worker := workerByFormat(path)
 	return worker.out(path, confStruct)
 }
 
-func workerByFormat(fileFormat format) worker {
-	switch fileFormat {
-	case JSON:
+func workerByFormat(path string) worker {
+	switch ext := strings.ToLower(filepath.Ext(path))[1:]; ext {
+	case "json":
 		return newJsonWorker()
-	case YAML:
+	case "yaml", "yml":
 		return newYamlWorker()
 	default:
-		return newDefaultWorker()
+		return newDefaultWorker(ext)
 	}
 }
