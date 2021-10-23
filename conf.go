@@ -14,6 +14,8 @@ func workerByFormat(fileFormat format) worker {
 	switch fileFormat {
 	case JSON:
 		return newJsonWorker()
+	case YAML:
+		return newYamlWorker()
 	default:
 		return newDefaultWorker()
 	}

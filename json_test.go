@@ -94,6 +94,7 @@ func loadJsonHelper(t *testing.T, fileName string, config interface{}) {
 func tearDown() {
 	trashes := []string{
 		"out.json",
+		"out.yaml",
 	}
 
 	for i := 0; i < len(trashes); i++ {
