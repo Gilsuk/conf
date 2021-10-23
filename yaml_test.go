@@ -18,7 +18,7 @@ func TestLoadNonExistingYamlFile(t *testing.T) {
 
 func TestLoadYamlCompletly(t *testing.T) {
 	config := &configuration{}
-	loadYamlHelper(t, "configuration.yaml", config)
+	loadFileHelper(t, "configuration.yaml", config)
 
 	if config.Name != "Alice" || config.Age != 19 {
 		t.Fail()
@@ -30,7 +30,7 @@ func TestOverrideYamlDefault(t *testing.T) {
 		Name: "Bob",
 	}
 
-	loadYamlHelper(t, "configuration.yaml", config)
+	loadFileHelper(t, "configuration.yaml", config)
 
 	if config.Name != "Alice" || config.Age != 19 {
 		t.Fail()
@@ -42,7 +42,7 @@ func TestLoadYamlDefault(t *testing.T) {
 		Name: "Bob",
 	}
 
-	loadYamlHelper(t, "configuration-with-default.yaml", config)
+	loadFileHelper(t, "configuration-with-default.yaml", config)
 
 	if config.Name != "Bob" || config.Age != 21 {
 		t.Fail()
@@ -69,18 +69,10 @@ func TestOutOverrideExistingYamlOutFile(t *testing.T) {
 			t.Fail()
 		}
 		config := &configuration{}
-		loadYamlHelper(t, outFileName, config)
+		loadFileHelper(t, outFileName, config)
 
 		if config.Name != configs[i].Name || config.Age != configs[i].Age {
 			t.Fail()
 		}
-	}
-}
-
-func loadYamlHelper(t *testing.T, fileName string, config interface{}) {
-	t.Helper()
-	err := conf.Load(filepath.Join("testdata", fileName), config)
-	if err != nil {
-		t.Error(err)
 	}
 }

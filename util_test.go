@@ -4,6 +4,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/gilsuk/conf"
 )
 
 type configuration struct {
@@ -26,4 +28,12 @@ func TestMain(m *testing.M) {
 	exitCode := m.Run()
 	tearDown()
 	os.Exit(exitCode)
+}
+
+func loadFileHelper(t *testing.T, fileName string, config interface{}) {
+	t.Helper()
+	err := conf.Load(filepath.Join("testdata", fileName), config)
+	if err != nil {
+		t.Error(err)
+	}
 }

@@ -18,7 +18,7 @@ func TestLoadNonExistingJsonFile(t *testing.T) {
 
 func TestLoadJsonCompletly(t *testing.T) {
 	config := &configuration{}
-	loadJsonHelper(t, "configuration.json", config)
+	loadFileHelper(t, "configuration.json", config)
 
 	if config.Name != "Alice" || config.Age != 19 {
 		t.Fail()
@@ -30,7 +30,7 @@ func TestOverrideDefault(t *testing.T) {
 		Name: "Bob",
 	}
 
-	loadJsonHelper(t, "configuration.json", config)
+	loadFileHelper(t, "configuration.json", config)
 
 	if config.Name != "Alice" || config.Age != 19 {
 		t.Fail()
@@ -42,7 +42,7 @@ func TestLoadDefault(t *testing.T) {
 		Name: "Bob",
 	}
 
-	loadJsonHelper(t, "configuration-with-default.json", config)
+	loadFileHelper(t, "configuration-with-default.json", config)
 
 	if config.Name != "Bob" || config.Age != 21 {
 		t.Fail()
@@ -69,18 +69,10 @@ func TestOutOverrideExistingOutFile(t *testing.T) {
 			t.Fail()
 		}
 		config := &configuration{}
-		loadJsonHelper(t, outFileName, config)
+		loadFileHelper(t, outFileName, config)
 
 		if config.Name != configs[i].Name || config.Age != configs[i].Age {
 			t.Fail()
 		}
-	}
-}
-
-func loadJsonHelper(t *testing.T, fileName string, config interface{}) {
-	t.Helper()
-	err := conf.Load(filepath.Join("testdata", fileName), config)
-	if err != nil {
-		t.Error(err)
 	}
 }
