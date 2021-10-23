@@ -16,7 +16,7 @@ func Out(path string, confStruct interface{}) error {
 }
 
 func workerByFormat(path string) worker {
-	switch ext := strings.ToLower(filepath.Ext(path))[1:]; ext {
+	switch ext := extension(path); ext {
 	case "json":
 		return newJsonWorker()
 	case "yaml", "yml":
@@ -24,4 +24,12 @@ func workerByFormat(path string) worker {
 	default:
 		return newDefaultWorker(ext)
 	}
+}
+
+func extension(path string) string {
+	ext := strings.ToLower(filepath.Ext(path))
+	if len(ext) > 0 {
+		ext = ext[1:]
+	}
+	return ext
 }
