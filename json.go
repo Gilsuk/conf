@@ -12,7 +12,7 @@ func newJsonWorker() worker {
 	return new(jsonWorker)
 }
 
-func (w *jsonWorker) load(path string, confStruct interface{}) error {
+func (w jsonWorker) load(path string, confStruct interface{}) error {
 
 	file, err := os.OpenFile(path, os.O_RDONLY, 0644)
 	if err != nil {
@@ -28,7 +28,7 @@ func (w *jsonWorker) load(path string, confStruct interface{}) error {
 	return json.Unmarshal(bytes, confStruct)
 }
 
-func (w *jsonWorker) out(path string, confStruct interface{}) error {
+func (w jsonWorker) out(path string, confStruct interface{}) error {
 
 	file, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {

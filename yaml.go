@@ -13,7 +13,7 @@ func newYamlWorker() worker {
 	return new(yamlWorker)
 }
 
-func (w *yamlWorker) load(path string, confStruct interface{}) error {
+func (w yamlWorker) load(path string, confStruct interface{}) error {
 
 	file, err := os.OpenFile(path, os.O_RDONLY, 0644)
 	if err != nil {
@@ -29,7 +29,7 @@ func (w *yamlWorker) load(path string, confStruct interface{}) error {
 	return yaml.Unmarshal(bytes, confStruct)
 }
 
-func (w *yamlWorker) out(path string, confStruct interface{}) error {
+func (w yamlWorker) out(path string, confStruct interface{}) error {
 
 	file, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {
